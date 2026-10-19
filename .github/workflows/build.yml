@@ -17,10 +17,7 @@ jobs:
         with:
           xcode-version: 'latest-stable'
 
-      - name: 4. Configure Signing & Bundle ID
-        run: |
-          sed -i '' 's/PRODUCT_BUNDLE_IDENTIFIER = .*/PRODUCT_BUNDLE_IDENTIFIER = com.whatonearth.custombuild;/g' WhatOnEarth.xcodeproj/project.pbxproj
-
+      # FIXED: Safely overrides the bundle ID at compile time instead of editing the text file directly
       - name: 6. Product Archive & Export to IPA
         run: |
           xcodebuild archive \
@@ -28,6 +25,7 @@ jobs:
             -scheme WhatOnEarth \
             -configuration Release \
             -archivePath $PWD/build/WhatOnEarth.xcarchive \
+            PRODUCT_BUNDLE_IDENTIFIER="com.whatonearth.custombuild" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
