@@ -17,7 +17,6 @@ jobs:
         with:
           xcode-version: 'latest-stable'
 
-      # FIXED: Safely overrides the bundle ID at compile time instead of editing the text file directly
       - name: 6. Product Archive & Export to IPA
         run: |
           xcodebuild archive \
@@ -26,6 +25,7 @@ jobs:
             -configuration Release \
             -archivePath $PWD/build/WhatOnEarth.xcarchive \
             PRODUCT_BUNDLE_IDENTIFIER="com.whatonearth.custombuild" \
+            INFOPLIST_KEY_UILaunchScreen_Generation=YES \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
